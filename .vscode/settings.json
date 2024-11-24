@@ -1,0 +1,29 @@
+{
+    // Justfile support
+    "files.associations": {
+        "justfile": "makefile"
+    },
+
+    // Perl configuration
+    "[perl]": {
+        "editor.defaultFormatter": "bscan.perlnavigator",
+        "editor.formatOnSave": false,
+        "editor.tabSize": 4,
+        "files.eol": "\n"
+    },
+
+    // PerlNavigator configuration
+    "perlnavigator.perlPath": "carton exec -- perl",
+    "perlnavigator.enableWarnings": true,
+    "perlnavigator.perlcriticEnabled": true,
+    "perlnavigator.perlcriticProfile": ".perlcriticrc",
+    "perlnavigator.perltidyProfile": ".perltidyrc",
+    "perlnavigator.perlimportsProfile": "perlimports.toml",
+    "perlnavigator.perlimportsLintEnabled": true,
+    "perlnavigator.perlimportsTidyEnabled": true,
+    "perlnavigator.includePaths": [
+        "lib",
+        "t",
+        "local/lib/perl5"
+    ]
+}
