@@ -25,11 +25,11 @@ install:
 
 # Format all Perl files
 fmt:
-    find . -type f -name "*.p[lm]" -o -name "*.t" | xargs -n1 perltidy -b -bext="/"
+    find . -type f \( -name "*.p[lm]" -o -name "*.t" \) -not -path "./local/*" | xargs -n1 perltidy -b -bext="/"
 
 # Run Perl::Critic on all Perl files
 lint:
-    find . -type f -name "*.p[lm]" -o -name "*.t" | xargs -n1 {{_carton}} perlcritic
+    find . -type f \( -name "*.p[lm]" -o -name "*.t" \) -not -path "./local/*" | xargs -n1 {{_carton}} perlcritic
 
 # Run tests with prove
 test:

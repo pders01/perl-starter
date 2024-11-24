@@ -29,7 +29,19 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Cache dependencies
+      - name: Cache Perl modules
+        uses: actions/cache@v4
+        id: cache-perl-modules
+        with:
+          path: |
+            ~/.perl-cpm
+            ~/.cache/perl-carton
+            /opt/hostedtoolcache/perl
+          key: perl-modules-${{ runner.os }}-${{ hashFiles('cpanfile') }}
+          restore-keys: |
+            perl-modules-${{ runner.os }}-
+
+      - name: Cache project dependencies
         uses: actions/cache@v4
         with:
           path: local
@@ -47,13 +59,22 @@ jobs:
           fi
 
       - name: Run format check
-        run: carton exec -- just fmt
+        run: |
+          carton exec -- just fmt
+        env:
+          PERL5LIB: ${{ github.workspace }}/lib
 
       - name: Run linter
-        run: carton exec -- just lint
+        run: |
+          carton exec -- just lint
+        env:
+          PERL5LIB: ${{ github.workspace }}/lib
 
       - name: Run tests
-        run: carton exec -- just test
+        run: |
+          carton exec -- just test
+        env:
+          PERL5LIB: ${{ github.workspace }}/lib
 
   release:
     name: Create Release
