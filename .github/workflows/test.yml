@@ -40,7 +40,11 @@ jobs:
       - name: Install dependencies
         run: |
           cpanm -n Carton
-          carton install --deployment
+          if [ ! -f cpanfile.snapshot ]; then
+            carton install
+          else
+            carton install --deployment
+          fi
 
       - name: Run format check
         run: carton exec -- just fmt
