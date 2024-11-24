@@ -9,7 +9,6 @@ on:
   pull_request:
     branches:
       - main
-      - master
 
 jobs:
   test:
@@ -23,6 +22,7 @@ jobs:
         uses: shogo82148/actions-setup-perl@v1
         with:
           perl-version: '5.36'
+          multi-thread: true
 
       - name: Install just
         uses: extractions/setup-just@v2
@@ -40,22 +40,24 @@ jobs:
       - name: Install dependencies
         run: |
           cpanm -n Carton
-          just install
+          carton install --deployment
 
       - name: Run format check
-        run: just fmt
+        run: carton exec -- just fmt
 
       - name: Run linter
-        run: just lint
+        run: carton exec -- just lint
 
       - name: Run tests
-        run: just test
+        run: carton exec -- just test
 
   release:
     name: Create Release
     runs-on: ubuntu-latest
     needs: test
     if: startsWith(github.ref, 'refs/tags/v')
+    permissions:
+      contents: write
 
     steps:
       - name: Checkout code
