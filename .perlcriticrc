@@ -3,7 +3,7 @@
 # Modified by Cascade (Codeium AI) - https://codeium.com
 
 severity = 1
-theme = pbp, core
+theme = pbp || core
 verbose = %f: [%p] %m at line %l, column %c.  %e.  (Severity: %s)
 
 # File extensions to check
